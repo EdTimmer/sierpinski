@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Canvas.css';
 
-const Canvas = ({ divider, counter, setCounter, shape }) => {
+const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
   const canvasRef = useRef(null);
 
   const [currentPoint, setCurrentPoint] = useState([30, 30]);
@@ -105,7 +105,7 @@ const Canvas = ({ divider, counter, setCounter, shape }) => {
 
     const midwayPoint = (a, b) => {
       // return (a + b) / 3;
-      return (a + b) / parseInt(divider);
+      return (a + b) / parseFloat(divider);
     };
 
     const determineNewCurrentPoint = (currentPoint, randomPoint) => {
@@ -123,7 +123,7 @@ const Canvas = ({ divider, counter, setCounter, shape }) => {
     //   setCounter(counter + 1);
     // }
 
-    if (counter < 5000) {
+    if (counter < repetitions) {
       let randomPoint = selectRandomPoint(shapePoints);
       setCurrentPoint(determineNewCurrentPoint(currentPoint, randomPoint));
       //
@@ -133,7 +133,7 @@ const Canvas = ({ divider, counter, setCounter, shape }) => {
       context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
       setCounter(counter + 1);
     }
-  }, [divider, counter]);
+  }, [divider, counter, repetitions]);
 
 
 

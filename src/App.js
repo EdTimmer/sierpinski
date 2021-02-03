@@ -9,22 +9,25 @@ const App = () => {
   const [divider, setDivider] = useState(2);
   const [counter, setCounter] = useState(0);
   const [shape, setShape] = useState('triangle');
+  const [repetitions, setRepetitions] = useState(5000);
+  const [shownRepetitions, setShownRepetitions] = useState(5000);
 
   const handleDividerChange = (e) => {
-    // console.log('handleDividerChange fired');
-    // console.log(typeof e.target.value);
     e.preventDefault();
     setShownDivider(e.target.value);
-    setDivider(e.target.value);
-    // console.log(divider);
   };
 
-  const submitDivider = (e) => {
+  const submitParameters = (e) => {
     e.preventDefault();
-    // console.log('submitDivider fired');
     setCounter(0);
     setDivider(shownDivider);
+    setRepetitions(shownRepetitions);
   };
+
+  const handleShownRepetitionsChange = (e) => {
+    e.preventDefault();
+    setShownRepetitions(e.target.value);
+  }
 
   const submitTriangle = (e) => {
     e.preventDefault();
@@ -39,21 +42,38 @@ const App = () => {
 
   return (
     <div className="App">
-      <form onSubmit={submitDivider}>
+      <form onSubmit={submitParameters}>
         <label>
           Divider:
           <input
-            type="text"
+            type="number"
             value={shownDivider}
             name="shownDivider"
             onChange={handleDividerChange}
           />
         </label>
+        <label>
+          Repetitions:
+          <input
+            type="number"
+            value={shownRepetitions}
+            name="shownRepetitions"
+            onChange={handleShownRepetitionsChange}
+          />
+        </label>
+
+        <button onClick={submitTriangle}>Triangle</button>
+        <button onClick={submitSquare}>Square</button>
+        <div className="">{shape}</div>
         <input type="submit" value="Submit" />
       </form>
-      <button onClick={submitTriangle}>Triangle</button>
-      <button onClick={submitSquare}>Square</button>
-      <Canvas divider={divider} counter={counter} setCounter={setCounter} shape={shape} />
+      <Canvas
+        divider={divider}
+        counter={counter}
+        setCounter={setCounter}
+        shape={shape}
+        repetitions={repetitions}
+      />
     </div>
   );
 };
