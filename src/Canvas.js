@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Canvas.css';
 
-const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
+const Canvas = ({ divider, counter, setCounter, shape, repetitions, dotSize, startPoint, currentPoint, setCurrentPoint }) => {
   const canvasRef = useRef(null);
 
-  const [currentPoint, setCurrentPoint] = useState([30, 30]);
+  // const [currentPoint, setCurrentPoint] = useState(startPoint);
 
 
   // const pointOne = [0, 500];
@@ -13,7 +13,13 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
   // console.log('divider in Canvas: ', divider)
 
 
-  const dotSize = 2;
+  // const dotSize = 2;
+
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   const contextTwo = canvas.getContext('2d');
+  //   contextTwo.fillStyle = '#FF0000';
+  // })
 
   useEffect(() => {
     const pointOneTriangle = [0, 500];
@@ -25,17 +31,32 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
     const pointThreeSquare = [500, 500];
     const pointFourSquare = [0, 500];
 
+    const pointOnePent = [250, 0];
+    const pointTwoPent = [500, 210];
+    const pointThreePent = [395, 500];
+    const pointFourPent = [105, 500];
+    const pointFivePent = [0, 210];
+
     // const pointFour = [0, 250];
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
+    // const contextTwo = canvas.getContext('2d');
+    // contextTwo.fillStyle = '#FF0000';
+
     if (counter === 0) {
       context.clearRect(0, 0, canvas.width, canvas.height);
-    }
+      // context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
+      setCurrentPoint([30, 30]);
+      context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
 
+    }
+    context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
     const shapePoints = [];
     // draw start shape points
     if (shape === 'triangle') {
+      context.fillRect(30, 30, dotSize, dotSize);
+
       context.fillRect(
         pointOneTriangle[0],
         pointOneTriangle[1],
@@ -61,6 +82,8 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
     }
 
     if (shape === 'square') {
+      // context.fillRect(30, 30, dotSize, dotSize);
+
       context.fillRect(
         pointOneSquare[0],
         pointOneSquare[1],
@@ -92,6 +115,46 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
       shapePoints.push(pointFourSquare);
     }
 
+    if (shape === 'pentagon') {
+      // context.fillRect(30, 30, dotSize, dotSize);
+
+      context.fillRect(
+        pointOnePent[0],
+        pointOnePent[1],
+        dotSize,
+        dotSize
+      );
+      context.fillRect(
+        pointTwoPent[0],
+        pointTwoPent[1],
+        dotSize,
+        dotSize
+      );
+      context.fillRect(
+        pointThreePent[0],
+        pointThreePent[1],
+        dotSize,
+        dotSize
+      );
+      context.fillRect(
+        pointFourPent[0],
+        pointFourPent[1],
+        dotSize,
+        dotSize
+      );
+      context.fillRect(
+        pointFivePent[0],
+        pointFivePent[1],
+        dotSize,
+        dotSize
+      );
+
+      shapePoints.push(pointOnePent);
+      shapePoints.push(pointTwoPent);
+      shapePoints.push(pointThreePent);
+      shapePoints.push(pointFourPent);
+      shapePoints.push(pointFivePent);
+    }
     // context.fillRect(pointFour[0], pointFour[1], dotSize, dotSize);
 
     //select random shape point
@@ -124,6 +187,14 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
     // }
 
     if (counter < repetitions) {
+
+      if (counter === 0) {
+        setCurrentPoint(startPoint);
+        context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
+        console.log('inside if counter === 0 and currentPoint is: ', currentPoint);
+      }
+      console.log('counter ', counter);
+      console.log('currentPoint ', currentPoint);
       let randomPoint = selectRandomPoint(shapePoints);
       setCurrentPoint(determineNewCurrentPoint(currentPoint, randomPoint));
       //
@@ -133,7 +204,7 @@ const Canvas = ({ divider, counter, setCounter, shape, repetitions }) => {
       context.fillRect(currentPoint[0], currentPoint[1], dotSize, dotSize);
       setCounter(counter + 1);
     }
-  }, [divider, counter, repetitions]);
+  }, [divider, counter, repetitions, startPoint, dotSize, shape, currentPoint, setCounter]);
 
 
 
